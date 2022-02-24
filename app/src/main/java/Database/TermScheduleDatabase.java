@@ -14,7 +14,7 @@ import Entity.Assessment;
 import Entity.Course;
 import Entity.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 5, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 6, exportSchema = false)
 public abstract class TermScheduleDatabase extends RoomDatabase {
 
     public abstract TermDAO termDao();

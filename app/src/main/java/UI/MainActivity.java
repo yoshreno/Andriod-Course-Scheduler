@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, TermList.class);
         startActivity(intent);
 
-        Repository repo = new Repository(getApplication());
-        Term term = new Term("termTitle", "1/1/1111", "2/19/2022");
-        repo.insert(term);
+        //Repository repo = new Repository(getApplication());
+        //Term term = new Term("new", "blah", "2/19/2022");
+        //repo.insert(term);
         //repo.getAllTerms();
     }
 }

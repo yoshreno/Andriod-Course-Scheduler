@@ -57,4 +57,16 @@ public class Repository {
         }
         return mAllTerms;
     }
+
+    public void update(Term term) {
+        databaseExecutor.execute(() -> {
+            mTermDAO.update(term);
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
