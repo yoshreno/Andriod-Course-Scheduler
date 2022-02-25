@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="UI.TermList">
+    tools:context="UI.CourseList">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTerms"
+        android:id="@+id/rvCourses"
         android:layout_width="409dp"
         android:layout_height="601dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,11 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:clickable="true"
-        android:onClick="onAddTerm"
-        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:onClick="onAddCourse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="339dp"
-        tools:layout_editor_absoluteY="659dp" />
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

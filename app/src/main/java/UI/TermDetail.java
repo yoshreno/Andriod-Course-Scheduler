@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -39,10 +41,39 @@ public class TermDetail extends AppCompatActivity {
         editEnd.setText(end);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_termdetail, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();;
+                return true;
+            case R.id.deleteTerm:
+                this.deleteTerm();
+                return true;
+            case R.id.addCourse:
+                //this.deleteTerm();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onSave(View view) {
         Repository repo = new Repository(getApplication());
         Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
-        repo.update(term);
+        repo.updateTerm(term);
+
+        Intent intent = new Intent(TermDetail.this, TermList.class);
+        startActivity(intent);
+    }
+
+    public void deleteTerm() {
+        Repository repo = new Repository(getApplication());
+        Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
+        repo.deleteTerm(term);
 
         Intent intent = new Intent(TermDetail.this, TermList.class);
         startActivity(intent);

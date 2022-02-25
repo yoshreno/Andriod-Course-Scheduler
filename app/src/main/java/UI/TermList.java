@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.example.c196_pa.R;
 
 import java.util.List;
@@ -43,5 +46,10 @@ public class TermList extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onAddTerm(View view) {
+        Intent intent = new Intent(TermList.this, AddTerm.class);
+        startActivity(intent);
     }
 }
