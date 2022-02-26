@@ -2,15 +2,23 @@ package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.c196_pa.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import Database.Repository;
 import Entity.Course;
@@ -28,6 +36,7 @@ public class CourseDetail extends AppCompatActivity {
     String instructorEmail;
     String notes;
     int termId;
+
     EditText editTitle;
     EditText editStart;
     EditText editEnd;
@@ -36,6 +45,12 @@ public class CourseDetail extends AppCompatActivity {
     EditText editInstructorPhone;
     EditText editInstructorEmail;
     EditText editNotes;
+
+    String dateFormat;
+    SimpleDateFormat sdf;
+    DatePickerDialog.OnDateSetListener startDateListener;
+    DatePickerDialog.OnDateSetListener endDateListener;
+    Calendar calendarDate = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +85,81 @@ public class CourseDetail extends AppCompatActivity {
         editInstructorPhone.setText(instructorPhone);
         editInstructorEmail.setText(instructorEmail);
         editNotes.setText(notes);
+
+        dateFormat = "MM/dd/yy";
+        sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        this.setStartDatePicker();
+        this.setEndDatePicker();
+        this.setStartDate();
+        this.setEndDate();
+    }
+
+    private void setStartDatePicker() {
+        editStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String stringDate = editStart.getText().toString();
+
+                if (stringDate == "") {
+                    new DatePickerDialog(CourseDetail.this).show();
+                }
+                else {
+                    try {
+                        calendarDate.setTime(sdf.parse(stringDate));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    new DatePickerDialog(CourseDetail.this, startDateListener, calendarDate.get(Calendar.YEAR),
+                            calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            }
+        });
+    }
+
+    private void setEndDatePicker() {
+        editEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String stringDate = editEnd.getText().toString();
+
+                if (stringDate == "") {
+                    new DatePickerDialog(CourseDetail.this).show();
+                }
+                else {
+                    try {
+                        calendarDate.setTime(sdf.parse(stringDate));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    new DatePickerDialog(CourseDetail.this, endDateListener, calendarDate.get(Calendar.YEAR),
+                            calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            }
+        });
+    }
+
+    private void setStartDate() {
+        startDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.set(Calendar.MONTH, monthOfYear);
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                editStart.setText(sdf.format(calendarDate.getTime()));
+            }
+        };
+    }
+
+    private void setEndDate() {
+        endDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.set(Calendar.MONTH, monthOfYear);
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                editEnd.setText(sdf.format(calendarDate.getTime()));
+            }
+        };
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
