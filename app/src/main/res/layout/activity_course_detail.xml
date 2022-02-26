@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:isScrollContainer="true"
     tools:context="UI.CourseDetail">
 
     <LinearLayout
@@ -168,6 +169,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".6"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="10"
+                android:scrollbars="vertical"
                 android:text="" />
 
         </LinearLayout>

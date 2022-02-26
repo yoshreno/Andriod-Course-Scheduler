@@ -11,7 +11,10 @@
         android:theme="@style/Theme.C196_PA">
         <activity
             android:name="UI.CourseDetail"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Course Detail"
+            android:parentActivityName="UI.CourseList"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="UI.CourseList"
             android:exported="false"

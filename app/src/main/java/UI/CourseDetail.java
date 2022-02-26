@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.example.c196_pa.R;
@@ -69,6 +72,29 @@ public class CourseDetail extends AppCompatActivity {
         editNotes.setText(notes);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();;
+                return true;
+            case R.id.addAssessment:
+                return true;
+            case R.id.notify:
+                return true;
+            case R.id.share:
+                this.shareNotes();
+                return true;
+            case R.id.deleteCourse:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onSave(View view) {
         Repository repo = new Repository(getApplication());
         Course course = new Course(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString(),
@@ -78,5 +104,15 @@ public class CourseDetail extends AppCompatActivity {
 
         Intent intent = new Intent(CourseDetail.this, CourseList.class);
         startActivity(intent);
+    }
+
+    public void shareNotes() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, editNotes.getText().toString());
+        sendIntent.putExtra(Intent.EXTRA_TITLE, editTitle.getText().toString() + " - Course Notes");
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 }
