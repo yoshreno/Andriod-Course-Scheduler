@@ -2,7 +2,10 @@ package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -170,11 +173,15 @@ public class CourseDetail extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();;
+                this.finish();
                 return true;
             case R.id.addAssessment:
                 return true;
             case R.id.notify:
+                if (editStart.getText().toString() != "")
+                    this.setStartNotification();
+                if (editEnd.getText().toString() != "")
+                    this.setEndNotification();
                 return true;
             case R.id.share:
                 this.shareNotes();
@@ -196,13 +203,47 @@ public class CourseDetail extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void shareNotes() {
+    private void shareNotes() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, editNotes.getText().toString());
-        sendIntent.putExtra(Intent.EXTRA_TITLE, editTitle.getText().toString() + " - Course Notes");
+        sendIntent.putExtra(Intent.EXTRA_TITLE, title + " - Course Notes");
         sendIntent.setType("text/plain");
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);
+    }
+
+    private void setStartNotification() {
+        String notificationDate = editStart.getText().toString();
+        Date date = null;
+        try {
+            date = sdf.parse(notificationDate);
+            Long trigger = date.getTime();
+            Intent intent = new Intent(CourseDetail.this, MyReceiver.class);
+            intent.putExtra("key", "Course: '" + title+ "' is starting today.");
+            PendingIntent sender = PendingIntent.getBroadcast(CourseDetail.this, MainActivity.numAlert++, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setEndNotification() {
+        String notificationDate = editEnd.getText().toString();
+        Date date = null;
+        try {
+            date = sdf.parse(notificationDate);
+            Long trigger = date.getTime();
+            Intent intent = new Intent(CourseDetail.this, MyReceiver.class);
+            intent.putExtra("key", "Course: '" + title+ "' is ending today.");
+            PendingIntent sender = PendingIntent.getBroadcast(CourseDetail.this, MainActivity.numAlert++, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
