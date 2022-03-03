@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.c196_pa.R;
 
@@ -55,6 +56,12 @@ public class AssociateCourse extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                Intent intent = new Intent(this, TermDetail.class);
+                intent.putExtra("id", AssociateCourse.termID);
+                intent.putExtra("title", AssociateCourse.termTitle);
+                intent.putExtra("startDate", AssociateCourse.termStart);
+                intent.putExtra("endDate", AssociateCourse.termEnd);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -73,7 +80,7 @@ public class AssociateCourse extends AppCompatActivity {
             startActivity(intent);
         }
         else {
-
+            Toast.makeText(AssociateCourse.this, "Please select a course to add.", Toast.LENGTH_LONG).show();
         }
     }
 }

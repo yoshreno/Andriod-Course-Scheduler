@@ -23,10 +23,10 @@ import Entity.Term;
 
 public class TermDetail extends AppCompatActivity {
 
+    int id;
     String title;
     String start;
     String end;
-    int id;
     EditText editTitle;
     EditText editStart;
     EditText editEnd;
@@ -36,6 +36,7 @@ public class TermDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editTitle = findViewById(R.id.titleEdit);
         editStart = findViewById(R.id.startEdit);
@@ -69,13 +70,13 @@ public class TermDetail extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();;
+                this.finish();
                 return true;
             case R.id.deleteTerm:
                 this.deleteTerm();
                 return true;
             case R.id.addCourse:
-                this.associateCourse();
+                this.addCourse();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -85,8 +86,8 @@ public class TermDetail extends AppCompatActivity {
         Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
         repo.updateTerm(term);
         this.finish();
-        Intent intent = new Intent(TermDetail.this, TermList.class);
-        startActivity(intent);
+        //Intent intent = new Intent(TermDetail.this, TermList.class);
+        //startActivity(intent);
     }
 
     public void deleteTerm() {
@@ -106,6 +107,7 @@ public class TermDetail extends AppCompatActivity {
 
             Toast.makeText(TermDetail.this, title  + " has been deleted.", Toast.LENGTH_LONG).show();
 
+            this.finish();
             Intent intent = new Intent(TermDetail.this, TermList.class);
             startActivity(intent);
         }
@@ -115,7 +117,8 @@ public class TermDetail extends AppCompatActivity {
         }
     }
 
-    public void associateCourse() {
+    public void addCourse() {
+        this.finish();
         Intent intent = new Intent(TermDetail.this, AssociateCourse.class);
         intent.putExtra("id", id);
         intent.putExtra("title", title);
