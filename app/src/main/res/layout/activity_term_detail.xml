@@ -9,8 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="15dp"
-        android:orientation="vertical">
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,8 +78,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100dp"
+            android:layout_marginVertical="25dp"
             android:onClick="onSave"
             android:text="Save" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAssociatedCourses"
+            android:layout_width="match_parent"
+            android:layout_height="543dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

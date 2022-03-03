@@ -1,6 +1,8 @@
 package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.c196_pa.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Database.Repository;
+import Entity.Course;
 import Entity.Term;
 
 public class TermDetail extends AppCompatActivity {
@@ -23,6 +30,7 @@ public class TermDetail extends AppCompatActivity {
     EditText editTitle;
     EditText editStart;
     EditText editEnd;
+    Repository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,18 @@ public class TermDetail extends AppCompatActivity {
         editTitle.setText(title);
         editStart.setText(start);
         editEnd.setText(end);
+
+        RecyclerView recyclerView = findViewById(R.id.rvAssociatedCourses);
+        repo = new Repository(getApplication());
+        ArrayList<Course> associatedCourses = new ArrayList<>();
+        for(Course course: repo.getAllCourses()) {
+            if(course.getTermId() == id)
+                associatedCourses.add(course);
+        }
+        final CourseAdapter adapter = new CourseAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setCourses(associatedCourses);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,27 +75,52 @@ public class TermDetail extends AppCompatActivity {
                 this.deleteTerm();
                 return true;
             case R.id.addCourse:
-                //this.deleteTerm();
+                this.associateCourse();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void onSave(View view) {
-        Repository repo = new Repository(getApplication());
         Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
         repo.updateTerm(term);
-
+        this.finish();
         Intent intent = new Intent(TermDetail.this, TermList.class);
         startActivity(intent);
     }
 
     public void deleteTerm() {
         Repository repo = new Repository(getApplication());
-        Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
-        repo.deleteTerm(term);
 
-        Intent intent = new Intent(TermDetail.this, TermList.class);
+        boolean hasCourse = false;
+        for(Course course: repo.getAllCourses()) {
+            if(course.getTermId() == id) {
+                hasCourse = true;
+                break;
+            }
+        }
+
+        if(!hasCourse) {
+            Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
+            repo.deleteTerm(term);
+
+            Toast.makeText(TermDetail.this, title  + " has been deleted.", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(TermDetail.this, TermList.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(TermDetail.this, "Unable to delete a term that has associated course(s). " +
+                    "Please delete the associated course(s) before deleting a term.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void associateCourse() {
+        Intent intent = new Intent(TermDetail.this, AssociateCourse.class);
+        intent.putExtra("id", id);
+        intent.putExtra("title", title);
+        intent.putExtra("startDate", start);
+        intent.putExtra("endDate", end);
         startActivity(intent);
     }
 }

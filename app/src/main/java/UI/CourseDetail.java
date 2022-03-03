@@ -91,10 +91,22 @@ public class CourseDetail extends AppCompatActivity {
 
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
-        this.setStartDatePicker();
-        this.setEndDatePicker();
         this.setStartDate();
         this.setEndDate();
+        this.setStartDatePicker();
+        this.setEndDatePicker();
+    }
+
+    private void setStartDate() {
+        startDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.set(Calendar.MONTH, monthOfYear);
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                editStart.setText(sdf.format(calendarDate.getTime()));
+            }
+        };
     }
 
     private void setStartDatePicker() {
@@ -103,7 +115,7 @@ public class CourseDetail extends AppCompatActivity {
             public void onClick(View view) {
                 String stringDate = editStart.getText().toString();
 
-                if (stringDate == "") {
+                if (stringDate.isEmpty()) {
                     new DatePickerDialog(CourseDetail.this).show();
                 }
                 else {
@@ -117,6 +129,18 @@ public class CourseDetail extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setEndDate() {
+        endDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.set(Calendar.MONTH, monthOfYear);
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                editEnd.setText(sdf.format(calendarDate.getTime()));
+            }
+        };
     }
 
     private void setEndDatePicker() {
@@ -139,30 +163,6 @@ public class CourseDetail extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void setStartDate() {
-        startDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendarDate.set(Calendar.YEAR, year);
-                calendarDate.set(Calendar.MONTH, monthOfYear);
-                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                editStart.setText(sdf.format(calendarDate.getTime()));
-            }
-        };
-    }
-
-    private void setEndDate() {
-        endDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendarDate.set(Calendar.YEAR, year);
-                calendarDate.set(Calendar.MONTH, monthOfYear);
-                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                editEnd.setText(sdf.format(calendarDate.getTime()));
-            }
-        };
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

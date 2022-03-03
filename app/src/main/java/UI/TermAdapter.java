@@ -65,7 +65,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         if(mTerms != null) {
             Term current = mTerms.get(position);
             String title = current.getTermTitle();
-            holder.termItemView.setText(title);
+            holder.termItemView.setText("ID: " + current.getTermId() + " - " + title);
         }
         else
             holder.termItemView.setText("No Term");
