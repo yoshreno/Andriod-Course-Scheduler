@@ -28,14 +28,8 @@ public class AddTerm extends AppCompatActivity {
     EditText editTitle;
     EditText editStart;
     EditText editEnd;
-
     private int nextID;
     Repository repo;
-    String dateFormat;
-    SimpleDateFormat sdf;
-    DatePickerDialog.OnDateSetListener startDateListener;
-    DatePickerDialog.OnDateSetListener endDateListener;
-    final Calendar calendarDate = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +41,6 @@ public class AddTerm extends AppCompatActivity {
         editTitle = findViewById(R.id.AddTerm_titleEdit);
         editStart = findViewById(R.id.AddTerm_startEdit);
         editEnd = findViewById(R.id.AddTerm_endEdit);
-
-        dateFormat = "MM/dd/yy";
-        sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
         MyDatePicker myDatePicker = new MyDatePicker(editStart, editEnd, AddTerm.this);
         myDatePicker.setStartDatePicker();
@@ -77,9 +68,9 @@ public class AddTerm extends AppCompatActivity {
         else {
             Term term = new Term(nextID, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
             repo.insertTerm(term);
+            TermList.terms.add(term);
+            TermList.adapter.notifyItemInserted(TermList.terms.size());
             this.finish();
-            Intent intent = new Intent(AddTerm.this, TermList.class);
-            startActivity(intent);
         }
     }
 

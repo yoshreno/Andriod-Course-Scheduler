@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.example.c196_pa.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import Database.Repository;
@@ -40,11 +43,16 @@ public class AssociateCourse extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rvAssociateCourse);
         repo = new Repository(getApplication());
-        List<Course> courses = repo.getAllCourses();
+        ArrayList<Course> notAssociated = new ArrayList<>();
+        for(Course c: repo.getAllCourses()) {
+            if(c.getTermId() != termID)
+                notAssociated.add(c);
+        }
+
         final CourseAdapter adapter = new CourseAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setCourses(courses);
+        adapter.setCourses(notAssociated);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,12 +64,16 @@ public class AssociateCourse extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+
+                /**
                 Intent intent = new Intent(this, TermDetail.class);
                 intent.putExtra("id", AssociateCourse.termID);
                 intent.putExtra("title", AssociateCourse.termTitle);
                 intent.putExtra("startDate", AssociateCourse.termStart);
                 intent.putExtra("endDate", AssociateCourse.termEnd);
                 startActivity(intent);
+                 */
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -71,13 +83,19 @@ public class AssociateCourse extends AppCompatActivity {
         if(course != null) {
             repo.updateCourse(course);
 
+            TermDetail.associatedCourses.add(course);
+            TermDetail.adapter.notifyItemInserted(TermDetail.associatedCourses.size() - 1);
+
             this.finish();
+
+            /**
             Intent intent = new Intent(this, TermDetail.class);
             intent.putExtra("id", AssociateCourse.termID);
             intent.putExtra("title", AssociateCourse.termTitle);
             intent.putExtra("startDate", AssociateCourse.termStart);
             intent.putExtra("endDate", AssociateCourse.termEnd);
             startActivity(intent);
+             */
         }
         else {
             Toast.makeText(AssociateCourse.this, "Please select a course to add.", Toast.LENGTH_LONG).show();

@@ -17,6 +17,7 @@ import java.util.List;
 
 import Database.Repository;
 import Entity.Course;
+import Entity.Term;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -29,27 +30,31 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    selectedPosition=position;
+                    selectedPosition = position;
                     notifyDataSetChanged();
-                    final Course current = mCourses.get(position);
+                    Course selectedCourse = mCourses.get(position);
 
                     if(context.getClass().equals(CourseList.class)) {
                         Intent intent = new Intent(context, CourseDetail.class);
-                        intent.putExtra("id", current.getCourseId());
-                        intent.putExtra("title", current.getTitle());
-                        intent.putExtra("startDate", current.getStartDate());
-                        intent.putExtra("endDate", current.getEndDate());
-                        intent.putExtra("status", current.getStatus());
-                        intent.putExtra("instructorName", current.getInstructorName());
-                        intent.putExtra("instructorEmail", current.getInstructorEmail());
-                        intent.putExtra("instructorPhone", current.getInstructorPhone());
-                        intent.putExtra("notes", current.getNotes());
-                        intent.putExtra("termId", current.getTermId());
+                        intent.putExtra("id", selectedCourse.getCourseId());
+                        intent.putExtra("title", selectedCourse.getTitle());
+                        intent.putExtra("startDate", selectedCourse.getStartDate());
+                        intent.putExtra("endDate", selectedCourse.getEndDate());
+                        intent.putExtra("status", selectedCourse.getStatus());
+                        intent.putExtra("instructorName", selectedCourse.getInstructorName());
+                        intent.putExtra("instructorEmail", selectedCourse.getInstructorEmail());
+                        intent.putExtra("instructorPhone", selectedCourse.getInstructorPhone());
+                        intent.putExtra("notes", selectedCourse.getNotes());
+                        intent.putExtra("termId", selectedCourse.getTermId());
                         context.startActivity(intent);
                     }
+                    else if (context.getClass().equals(TermDetail.class)) {
+                        selectedCourse.setTermId(0);
+                        TermDetail.selectedCourse = selectedCourse;
+                    }
                     else if (context.getClass().equals(AssociateCourse.class)) {
-                        Course course = new Course(current.getCourseId(), current.getTitle(), current.getStartDate(), current.getEndDate(), current.getStatus(), current.getInstructorName(),
-                                current.getInstructorEmail(), current.getInstructorPhone(), current.getNotes(), AssociateCourse.termID);
+                        Course course = new Course(selectedCourse.getCourseId(), selectedCourse.getTitle(), selectedCourse.getStartDate(), selectedCourse.getEndDate(), selectedCourse.getStatus(), selectedCourse.getInstructorName(),
+                                selectedCourse.getInstructorEmail(), selectedCourse.getInstructorPhone(), selectedCourse.getNotes(), AssociateCourse.termID);
                         AssociateCourse.course = course;
                     }
                 }
@@ -61,7 +66,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private List<Course> mCourses;
     private final Context context;
     private final LayoutInflater mInflater;
-    Repository repo;
 
     public CourseAdapter(Context context) {
         mInflater = LayoutInflater.from(context);

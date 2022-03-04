@@ -19,6 +19,9 @@ import Entity.Term;
 
 public class TermList extends AppCompatActivity {
 
+    public static TermAdapter adapter;
+    public static List<Term> terms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +30,8 @@ public class TermList extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rvTerms);
         Repository repo = new Repository(getApplication());
-        List<Term> terms = repo.getAllTerms();
-        final TermAdapter adapter = new TermAdapter(this);
+        terms = repo.getAllTerms();
+        adapter = new TermAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setTerms(terms);
