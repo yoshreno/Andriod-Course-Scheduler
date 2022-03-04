@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.c196_pa.R;
@@ -17,6 +20,9 @@ import Entity.Term;
 
 public class CourseList extends AppCompatActivity {
 
+    public static CourseAdapter adapter;
+    public static List<Course> courses;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +31,29 @@ public class CourseList extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rvCourses);
         Repository repo = new Repository(getApplication());
-        List<Course> courses = repo.getAllCourses();
-        final CourseAdapter adapter = new CourseAdapter(this);
+        courses = repo.getAllCourses();
+        adapter = new CourseAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setCourses(courses);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_termlist, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();;
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onAddCourse(View view) {
+        Intent intent = new Intent(CourseList.this, AddCourse.class);
+        startActivity(intent);
     }
 }

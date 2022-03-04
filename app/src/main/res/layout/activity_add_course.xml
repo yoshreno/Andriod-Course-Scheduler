@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:isScrollContainer="true"
-    tools:context="UI.CourseDetail">
+    tools:context="UI.AddCourse">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -188,11 +187,6 @@
             android:layout_marginVertical="25dp"
             android:onClick="onSave"
             android:text="Save" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAssociatedAssessments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

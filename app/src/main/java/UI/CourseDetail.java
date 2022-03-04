@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.c196_pa.R;
 
@@ -193,14 +194,19 @@ public class CourseDetail extends AppCompatActivity {
     }
 
     public void onSave(View view) {
-        Repository repo = new Repository(getApplication());
-        Course course = new Course(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString(),
-                editStatus.getText().toString(), editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),
-                editInstructorEmail.getText().toString(), editNotes.getText().toString(), termId);
-        repo.updateCourse(course);
+        if(editTitle.getText().toString().isEmpty()) {
+            Toast.makeText(CourseDetail.this, "Please enter the course title.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Repository repo = new Repository(getApplication());
+            Course course = new Course(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString(),
+                    editStatus.getText().toString(), editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),
+                    editInstructorEmail.getText().toString(), editNotes.getText().toString(), termId);
+            repo.updateCourse(course);
 
-        Intent intent = new Intent(CourseDetail.this, CourseList.class);
-        startActivity(intent);
+            Intent intent = new Intent(CourseDetail.this, CourseList.class);
+            startActivity(intent);
+        }
     }
 
     private void shareNotes() {

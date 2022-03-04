@@ -97,14 +97,19 @@ public class TermDetail extends AppCompatActivity {
     }
 
     public void onSave(View view) {
-        Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
-        repo.updateTerm(term);
+        if(editTitle.getText().toString().isEmpty()) {
+            Toast.makeText(TermDetail.this, "Please enter the term title.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Term term = new Term(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString());
+            repo.updateTerm(term);
 
-        TermList.terms.get(index).setTermTitle(editTitle.getText().toString());
-        TermList.terms.get(index).setStartDate(editStart.getText().toString());
-        TermList.terms.get(index).setEndDate(editEnd.getText().toString());
-        TermList.adapter.notifyItemChanged(index);
-        this.finish();
+            TermList.terms.get(index).setTermTitle(editTitle.getText().toString());
+            TermList.terms.get(index).setStartDate(editStart.getText().toString());
+            TermList.terms.get(index).setEndDate(editEnd.getText().toString());
+            TermList.adapter.notifyItemChanged(index);
+            this.finish();
+        }
     }
 
     public void deleteTerm() {

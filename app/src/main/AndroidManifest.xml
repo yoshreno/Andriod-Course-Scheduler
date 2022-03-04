@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.C196_PA">
         <activity
+            android:name="UI.AddCourse"
+            android:exported="false" />
+        <activity
             android:name="UI.AssociateCourse"
             android:exported="false"
             android:label="Associate Course"
-            android:parentActivityName="UI.TermDetail"/>
+            android:parentActivityName="UI.TermDetail" />
 
         <receiver
             android:name="UI.MyReceiver"

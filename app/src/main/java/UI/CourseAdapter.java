@@ -53,9 +53,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                         TermDetail.selectedCourse = selectedCourse;
                     }
                     else if (context.getClass().equals(AssociateCourse.class)) {
-                        Course course = new Course(selectedCourse.getCourseId(), selectedCourse.getTitle(), selectedCourse.getStartDate(), selectedCourse.getEndDate(), selectedCourse.getStatus(), selectedCourse.getInstructorName(),
-                                selectedCourse.getInstructorEmail(), selectedCourse.getInstructorPhone(), selectedCourse.getNotes(), AssociateCourse.termID);
-                        AssociateCourse.course = course;
+                        //Course course = new Course(selectedCourse.getCourseId(), selectedCourse.getTitle(), selectedCourse.getStartDate(), selectedCourse.getEndDate(), selectedCourse.getStatus(), selectedCourse.getInstructorName(),
+                        //        selectedCourse.getInstructorEmail(), selectedCourse.getInstructorPhone(), selectedCourse.getNotes(), AssociateCourse.termID);
+                        selectedCourse.setTermId(AssociateCourse.termID);
+                        AssociateCourse.course = selectedCourse;
                     }
                 }
             });
@@ -86,10 +87,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
-        if(selectedPosition == position)
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+        if(context.getClass().equals(TermDetail.class) || context.getClass().equals(AssociateCourse.class)) {
+            if(selectedPosition == position)
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+            else
+                holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
 
         if(mCourses != null) {
             Course current = mCourses.get(position);
@@ -97,7 +101,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.courseItemView.setText("ID: " + current.getCourseId() + " - " + title);
         }
         else
-            holder.courseItemView.setText("No Course");
+            holder.courseItemView.setText("No Course has been added. Please add a course to view them here.");
     }
 
     @Override

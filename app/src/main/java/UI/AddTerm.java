@@ -35,6 +35,8 @@ public class AddTerm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_term);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         repo = new Repository(getApplication());
         nextID = this.getNextID();
 
