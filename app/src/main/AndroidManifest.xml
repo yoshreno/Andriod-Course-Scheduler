@@ -11,19 +11,29 @@
         android:theme="@style/Theme.C196_PA">
         <activity
             android:name="UI.AddAssessment"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Add Assessment"
+            android:parentActivityName="UI.AssessmentDetail" />
         <activity
             android:name="UI.AssociateAssessment"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Associate Assessment"
+            android:parentActivityName="UI.AssociateAssessment" />
         <activity
             android:name="UI.AssessmentList"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Assessment List"
+            android:parentActivityName="UI.MainActivity" />
         <activity
             android:name="UI.AssessmentDetail"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Assessment Detail"
+            android:parentActivityName="UI.AssessmentList" />
         <activity
             android:name="UI.AddCourse"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Add Course"
+            android:parentActivityName="UI.CourseDetail"/>
         <activity
             android:name="UI.AssociateCourse"
             android:exported="false"
