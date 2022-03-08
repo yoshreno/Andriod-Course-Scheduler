@@ -1,7 +1,10 @@
 package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -11,7 +14,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,17 +22,23 @@ import com.example.c196_pa.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
+import Entity.Assessment;
 import Entity.Course;
 import Entity.Term;
+import Utility.AssessmentAdapter;
+import Utility.CourseAdapter;
+import Utility.MyDatePicker;
+import Utility.MyReceiver;
 
 public class CourseDetail extends AppCompatActivity {
 
-    int id;
+    int courseId;
     String title;
     String start;
     String end;
@@ -40,6 +48,7 @@ public class CourseDetail extends AppCompatActivity {
     String instructorEmail;
     String notes;
     int termId;
+    int index;
 
     EditText editTitle;
     EditText editStart;
@@ -52,9 +61,10 @@ public class CourseDetail extends AppCompatActivity {
 
     String dateFormat;
     SimpleDateFormat sdf;
-    DatePickerDialog.OnDateSetListener startDateListener;
-    DatePickerDialog.OnDateSetListener endDateListener;
-    Calendar calendarDate = Calendar.getInstance();
+    Repository repo;
+    public static AssessmentAdapter adapter;
+    public static Assessment selectedAssessment;
+    public static ArrayList<Assessment> associatedAssessments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +80,7 @@ public class CourseDetail extends AppCompatActivity {
         editInstructorEmail = findViewById(R.id.instructorEmail);
         editNotes = findViewById(R.id.notes);
 
-        id = getIntent().getIntExtra("id", -1);
+        courseId = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         start = getIntent().getStringExtra("startDate");
         end = getIntent().getStringExtra("endDate");
@@ -80,6 +90,7 @@ public class CourseDetail extends AppCompatActivity {
         instructorEmail = getIntent().getStringExtra("instructorEmail");
         notes = getIntent().getStringExtra("notes");
         termId = getIntent().getIntExtra("termId", -1);
+        index = getIntent().getIntExtra("index", -1);
 
         editTitle.setText(title);
         editStart.setText(start);
@@ -90,80 +101,24 @@ public class CourseDetail extends AppCompatActivity {
         editInstructorEmail.setText(instructorEmail);
         editNotes.setText(notes);
 
+        associatedAssessments = new ArrayList<>();
+        repo = new Repository(getApplication());
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
-        this.setStartDate();
-        this.setEndDate();
-        this.setStartDatePicker();
-        this.setEndDatePicker();
-    }
 
-    private void setStartDate() {
-        startDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendarDate.set(Calendar.YEAR, year);
-                calendarDate.set(Calendar.MONTH, monthOfYear);
-                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                editStart.setText(sdf.format(calendarDate.getTime()));
-            }
-        };
-    }
+        MyDatePicker myDatePicker = new MyDatePicker(editStart, editEnd, CourseDetail.this);
+        myDatePicker.setStartDatePicker();
+        myDatePicker.setEndDatePicker();
 
-    private void setStartDatePicker() {
-        editStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String stringDate = editStart.getText().toString();
-
-                if (stringDate.isEmpty()) {
-                    new DatePickerDialog(CourseDetail.this).show();
-                }
-                else {
-                    try {
-                        calendarDate.setTime(sdf.parse(stringDate));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    new DatePickerDialog(CourseDetail.this, startDateListener, calendarDate.get(Calendar.YEAR),
-                            calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
-                }
-            }
-        });
-    }
-
-    private void setEndDate() {
-        endDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendarDate.set(Calendar.YEAR, year);
-                calendarDate.set(Calendar.MONTH, monthOfYear);
-                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                editEnd.setText(sdf.format(calendarDate.getTime()));
-            }
-        };
-    }
-
-    private void setEndDatePicker() {
-        editEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String stringDate = editEnd.getText().toString();
-
-                if (stringDate == "") {
-                    new DatePickerDialog(CourseDetail.this).show();
-                }
-                else {
-                    try {
-                        calendarDate.setTime(sdf.parse(stringDate));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    new DatePickerDialog(CourseDetail.this, endDateListener, calendarDate.get(Calendar.YEAR),
-                            calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
-                }
-            }
-        });
+        RecyclerView recyclerView = findViewById(R.id.rvAssociatedAssessments);
+        for(Assessment assessment: repo.getAllAssessments()) {
+            if(assessment.getCourseId() == courseId)
+                associatedAssessments.add(assessment);
+        }
+        adapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setAssessments(associatedAssessments);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,6 +132,10 @@ public class CourseDetail extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.addAssessment:
+                this.addAssessment();
+                return true;
+            case R.id.removeAssessment:
+                this.removeAssessment();
                 return true;
             case R.id.notify:
                 if (editStart.getText().toString() != "")
@@ -188,6 +147,7 @@ public class CourseDetail extends AppCompatActivity {
                 this.shareNotes();
                 return true;
             case R.id.deleteCourse:
+                deleteCourse();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -199,14 +159,51 @@ public class CourseDetail extends AppCompatActivity {
         }
         else {
             Repository repo = new Repository(getApplication());
-            Course course = new Course(id, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString(),
+            Course course = new Course(courseId, editTitle.getText().toString(), editStart.getText().toString(), editEnd.getText().toString(),
                     editStatus.getText().toString(), editInstructorName.getText().toString(), editInstructorPhone.getText().toString(),
                     editInstructorEmail.getText().toString(), editNotes.getText().toString(), termId);
             repo.updateCourse(course);
+            
+            CourseList.courses.get(index).setTitle(editTitle.getText().toString());
+            CourseList.courses.get(index).setStartDate(editStart.getText().toString());
+            CourseList.courses.get(index).setEndDate(editEnd.getText().toString());
+            CourseList.courses.get(index).setStatus(editStatus.getText().toString());
+            CourseList.courses.get(index).setInstructorName(editInstructorName.getText().toString());
+            CourseList.courses.get(index).setInstructorPhone(editInstructorPhone.getText().toString());
+            CourseList.courses.get(index).setInstructorEmail(editInstructorEmail.getText().toString());
+            CourseList.courses.get(index).setNotes(editNotes.getText().toString());
 
-            Intent intent = new Intent(CourseDetail.this, CourseList.class);
-            startActivity(intent);
+            CourseList.adapter.notifyItemChanged(index);
+            this.finish();
         }
+    }
+
+    public void deleteCourse() {
+        Course course = new Course(courseId, title, start, end, status, instructorName, instructorPhone, instructorEmail, notes, termId);
+        repo.deleteCourse(course);
+
+        CourseList.courses.remove(index);
+        CourseList.adapter.notifyItemRemoved(index);
+
+        Toast.makeText(CourseDetail.this, title  + " has been deleted.", Toast.LENGTH_LONG).show();
+
+        this.finish();
+    }
+
+    public void addAssessment() {
+        Intent intent = new Intent(CourseDetail.this, AssociateAssessment.class);
+        intent.putExtra("id", courseId);
+        startActivity(intent);
+    }
+
+    private void removeAssessment() {
+        if (selectedAssessment != null) {
+            repo.updateAssessment(selectedAssessment);
+            associatedAssessments.remove(selectedAssessment);
+            adapter.notifyItemRemoved(associatedAssessments.indexOf(selectedAssessment));
+        }
+        else
+            Toast.makeText(CourseDetail.this, "Please select an assessment to remove.", Toast.LENGTH_LONG).show();
     }
 
     private void shareNotes() {

@@ -5,6 +5,9 @@
     <item android:title="Add Assessment"
         android:orderInCategory="100"
         android:id="@+id/addAssessment"/>
+    <item android:title="Remove Assessment"
+        android:orderInCategory="100"
+        android:id="@+id/removeAssessment"/>/>
     <item android:title="Set Notification"
         android:orderInCategory="100"
         android:id="@+id/notify"/>

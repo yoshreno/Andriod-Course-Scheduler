@@ -14,8 +14,9 @@ import com.example.c196_pa.R;
 import java.util.List;
 
 import Database.Repository;
+import Entity.Assessment;
 import Entity.Course;
-import Entity.Term;
+import Utility.MyDatePicker;
 
 public class AddCourse extends AppCompatActivity {
 
@@ -85,7 +86,11 @@ public class AddCourse extends AppCompatActivity {
 
     private int getNextID(){
         List<Course> courses = repo.getAllCourses();
-        nextID = courses.get(repo.getAllCourses().size() - 1).getCourseId() + 1;
+        if(courses.size() == 0)
+            nextID = 1;
+        else
+            nextID = courses.get(courses.size() - 1).getCourseId() + 1;
+
         return nextID;
     }
 }

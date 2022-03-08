@@ -2,26 +2,21 @@ package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.c196_pa.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import Database.Repository;
+import Entity.Assessment;
 import Entity.Term;
+import Utility.MyDatePicker;
 
 public class AddTerm extends AppCompatActivity {
 
@@ -78,7 +73,11 @@ public class AddTerm extends AppCompatActivity {
 
     private int getNextID(){
         List<Term> terms = repo.getAllTerms();
-        nextID = terms.get(repo.getAllTerms().size() - 1).getTermId() + 1;
+        if(terms.size() == 0)
+            nextID = 1;
+        else
+            nextID = terms.get(terms.size() - 1).getTermId() + 1;
+
         return nextID;
     }
 }

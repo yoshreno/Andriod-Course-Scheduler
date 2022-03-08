@@ -118,4 +118,107 @@ public class Repository {
             e.printStackTrace();
         }
     }
+
+    public void deleteCourse(Course course) {
+        databaseExecutor.execute(() -> {
+            mCourseDAO.delete(course);
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Course getCourseById(int id) {
+        databaseExecutor.execute(() -> {
+            mAllCourses = mCourseDAO.getAllCourses();
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Course courseById = null;
+        for(Course course: mAllCourses) {
+            if(course.getCourseId() == id) {
+                courseById = course;
+                break;
+            }
+        }
+        return courseById;
+    }
+
+    public List<Assessment> getAllAssessments() {
+        databaseExecutor.execute(() -> {
+            mAllAssessments = mAssessmentDAO.getAllAssessments();
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mAllAssessments;
+    }
+
+    public void insertAssessment(Assessment assessment) {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.insert(assessment);
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAssessment(Assessment assessment) {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.update(assessment);
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAssessment(Assessment assessment) {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.delete(assessment);
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Assessment getAssessmentById(int id) {
+        databaseExecutor.execute(() -> {
+            mAllAssessments = mAssessmentDAO.getAllAssessments();
+        });
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Assessment assessmentById = null;
+        for(Assessment assessment: mAllAssessments) {
+            if(assessment.getId() == id) {
+                assessmentById = assessment;
+                break;
+            }
+        }
+        return assessmentById;
+    }
 }

@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.C196_PA">
         <activity
+            android:name="UI.AddAssessment"
+            android:exported="false" />
+        <activity
+            android:name="UI.AssociateAssessment"
+            android:exported="false" />
+        <activity
+            android:name="UI.AssessmentList"
+            android:exported="false" />
+        <activity
+            android:name="UI.AssessmentDetail"
+            android:exported="false" />
+        <activity
             android:name="UI.AddCourse"
             android:exported="false" />
         <activity
@@ -19,7 +31,7 @@
             android:parentActivityName="UI.TermDetail" />
 
         <receiver
-            android:name="UI.MyReceiver"
+            android:name="Utility.MyReceiver"
             android:enabled="true"
             android:exported="true" />
 

@@ -1,4 +1,4 @@
-package UI;
+package Utility;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +15,11 @@ import com.example.c196_pa.R;
 
 import java.util.List;
 
-import Database.Repository;
 import Entity.Course;
-import Entity.Term;
+import UI.AssociateCourse;
+import UI.CourseDetail;
+import UI.CourseList;
+import UI.TermDetail;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -29,10 +31,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    selectedPosition = position;
+                    selectedIndex = getAdapterPosition();
                     notifyDataSetChanged();
-                    Course selectedCourse = mCourses.get(position);
+                    Course selectedCourse = mCourses.get(selectedIndex);
 
                     if(context.getClass().equals(CourseList.class)) {
                         Intent intent = new Intent(context, CourseDetail.class);
@@ -46,6 +47,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                         intent.putExtra("instructorPhone", selectedCourse.getInstructorPhone());
                         intent.putExtra("notes", selectedCourse.getNotes());
                         intent.putExtra("termId", selectedCourse.getTermId());
+                        intent.putExtra("index", selectedIndex);
                         context.startActivity(intent);
                     }
                     else if (context.getClass().equals(TermDetail.class)) {
@@ -63,7 +65,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         }
     }
 
-    private int selectedPosition = -1;
+    private int selectedIndex = -1;
     private List<Course> mCourses;
     private final Context context;
     private final LayoutInflater mInflater;
@@ -89,7 +91,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
 
         if(context.getClass().equals(TermDetail.class) || context.getClass().equals(AssociateCourse.class)) {
-            if(selectedPosition == position)
+            if(selectedIndex == position)
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
             else
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));

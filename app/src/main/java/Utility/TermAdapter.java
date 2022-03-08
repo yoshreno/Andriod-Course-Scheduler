@@ -1,4 +1,4 @@
-package UI;
+package Utility;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.example.c196_pa.R;
 import java.util.List;
 
 import Entity.Term;
+import UI.TermDetail;
 
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
 
@@ -26,10 +27,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    final Term current = mTerms.get(position);
+                    int selectedIndex = getAdapterPosition();
+                    final Term current = mTerms.get(selectedIndex);
                     Intent intent = new Intent(context, TermDetail.class);
-                    intent.putExtra("index", position);
+                    intent.putExtra("index", selectedIndex);
                     intent.putExtra("id", current.getTermId());
                     intent.putExtra("title", current.getTermTitle());
                     intent.putExtra("startDate", current.getStartDate());

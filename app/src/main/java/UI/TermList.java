@@ -16,6 +16,7 @@ import java.util.List;
 
 import Database.Repository;
 import Entity.Term;
+import Utility.TermAdapter;
 
 public class TermList extends AppCompatActivity {
 

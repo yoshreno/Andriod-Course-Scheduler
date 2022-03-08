@@ -15,41 +15,37 @@ import com.example.c196_pa.R;
 import java.util.ArrayList;
 
 import Database.Repository;
+import Entity.Assessment;
 import Entity.Course;
+import Utility.AssessmentAdapter;
 import Utility.CourseAdapter;
 
-public class AssociateCourse extends AppCompatActivity {
+public class AssociateAssessment extends AppCompatActivity {
 
-    public static int termID;
-    public static String termTitle;
-    public static String termStart;
-    public static String termEnd;
-    public static Course course;
+    public static int courseID;
+    public static Assessment assessment;
     private Repository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_associate_course);
+        setContentView(R.layout.activity_associate_assessment);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        termID = getIntent().getIntExtra("id", -1);
-        termTitle = getIntent().getStringExtra("title");
-        termStart = getIntent().getStringExtra("startDate");
-        termEnd = getIntent().getStringExtra("endDate");
+        courseID = getIntent().getIntExtra("id", -1);
 
-        RecyclerView recyclerView = findViewById(R.id.rvAssociateCourse);
+        RecyclerView recyclerView = findViewById(R.id.rvAssociateAssessment);
         repo = new Repository(getApplication());
-        ArrayList<Course> notAssociated = new ArrayList<>();
-        for(Course c: repo.getAllCourses()) {
-            if(c.getTermId() != termID)
-                notAssociated.add(c);
+        ArrayList<Assessment> notAssociated = new ArrayList<>();
+        for(Assessment a: repo.getAllAssessments()) {
+            if(a.getCourseId() != courseID)
+                notAssociated.add(a);
         }
 
-        final CourseAdapter adapter = new CourseAdapter(this);
+        final AssessmentAdapter adapter = new AssessmentAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setCourses(notAssociated);
+        adapter.setAssessments(notAssociated);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,17 +62,17 @@ public class AssociateCourse extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onAddCourse(View view) {
-        if(course != null) {
-            repo.updateCourse(course);
+    public void onAddAssessment(View view) {
+        if(assessment != null) {
+            repo.updateAssessment(assessment);
 
-            TermDetail.associatedCourses.add(course);
-            TermDetail.adapter.notifyItemInserted(TermDetail.associatedCourses.size() - 1);
+            CourseDetail.associatedAssessments.add(assessment);
+            CourseDetail.adapter.notifyItemInserted(CourseDetail.associatedAssessments.size() - 1);
 
             this.finish();
         }
         else {
-            Toast.makeText(AssociateCourse.this, "Please select a course to add.", Toast.LENGTH_LONG).show();
+            Toast.makeText(AssociateAssessment.this, "Please select an assessment to add.", Toast.LENGTH_LONG).show();
         }
     }
 }

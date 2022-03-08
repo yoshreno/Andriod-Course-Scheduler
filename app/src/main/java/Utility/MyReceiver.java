@@ -1,4 +1,4 @@
-package UI;
+package Utility;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

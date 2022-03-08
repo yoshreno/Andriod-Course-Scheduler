@@ -15,27 +15,29 @@ import com.example.c196_pa.R;
 import java.util.List;
 
 import Database.Repository;
-import Entity.Course;
-import Utility.CourseAdapter;
+import Entity.Assessment;
+import Entity.Term;
+import Utility.AssessmentAdapter;
+import Utility.TermAdapter;
 
-public class CourseList extends AppCompatActivity {
+public class AssessmentList extends AppCompatActivity {
 
-    public static CourseAdapter adapter;
-    public static List<Course> courses;
+    public static AssessmentAdapter adapter;
+    public static List<Assessment> assessments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_list);
+        setContentView(R.layout.activity_assessment_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView recyclerView = findViewById(R.id.rvCourses);
+        RecyclerView recyclerView = findViewById(R.id.rvTerms);
         Repository repo = new Repository(getApplication());
-        courses = repo.getAllCourses();
-        adapter = new CourseAdapter(this);
+        assessments = repo.getAllAssessments();
+        adapter = new AssessmentAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setCourses(courses);
+        adapter.setAssessments(assessments);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,8 +54,8 @@ public class CourseList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onAddCourse(View view) {
-        Intent intent = new Intent(CourseList.this, AddCourse.class);
+    public void onAddAssessment(View view) {
+        Intent intent = new Intent(AssessmentList.this, AddAssessment.class);
         startActivity(intent);
     }
 }

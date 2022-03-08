@@ -7,14 +7,15 @@ import androidx.room.PrimaryKey;
 public class Assessment {
 
     @PrimaryKey(autoGenerate = true)
-    private int assessmentId;
+    private int id;
     private String title;
     private String startDate;
     private String endDate;
     private String type;
     private int courseId;
 
-    public Assessment(String title, String startDate, String endDate, String type, int courseId) {
+    public Assessment(int id, String title, String startDate, String endDate, String type, int courseId) {
+        this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,12 +30,12 @@ public class Assessment {
                 '}';
     }
 
-    public int getAssessmentId() {
-        return assessmentId;
+    public int getId() {
+        return id;
     }
 
-    public void setAssessmentId(int assessmentId) {
-        this.assessmentId = assessmentId;
+    public void setId(int assessmentId) {
+        this.id = assessmentId;
     }
 
     public String getTitle() {

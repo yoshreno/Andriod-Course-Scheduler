@@ -7,193 +7,199 @@
     android:isScrollContainer="true"
     tools:context="UI.CourseDetail">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="15dp">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/titleLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Title:" />
-
-            <EditText
-                android:id="@+id/titleEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/startLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Start Date:" />
-
-            <EditText
-                android:id="@+id/startEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:editable="false"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/endLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="End Date:" />
-
-            <EditText
-                android:id="@+id/endEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:editable="false"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Status:" />
-
-            <EditText
-                android:id="@+id/statusEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Instructor Name:" />
-
-            <EditText
-                android:id="@+id/instructorName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Instructor Phone:" />
-
-            <EditText
-                android:id="@+id/instructorPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Instructor Email:" />
-
-            <EditText
-                android:id="@+id/instructorEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:text="Notes:" />
-
-            <EditText
-                android:id="@+id/notes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:maxLines="10"
-                android:scrollbars="vertical"
-                android:text="" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="100dp"
-            android:layout_marginVertical="25dp"
-            android:onClick="onSave"
-            android:text="Save" />
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAssociatedAssessments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/titleLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Title:" />
+
+                <EditText
+                    android:id="@+id/titleEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/startLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Start Date:" />
+
+                <EditText
+                    android:id="@+id/startEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:editable="false"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/endLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="End Date:" />
+
+                <EditText
+                    android:id="@+id/endEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:editable="false"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Status:" />
+
+                <EditText
+                    android:id="@+id/statusEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Instructor Name:" />
+
+                <EditText
+                    android:id="@+id/instructorName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Instructor Phone:" />
+
+                <EditText
+                    android:id="@+id/instructorPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Instructor Email:" />
+
+                <EditText
+                    android:id="@+id/instructorEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:text="Notes:" />
+
+                <EditText
+                    android:id="@+id/notes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLines="10"
+                    android:scrollbars="vertical"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="100dp"
+                android:layout_marginVertical="25dp"
+                android:onClick="onSave"
+                android:text="Save" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAssociatedAssessments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

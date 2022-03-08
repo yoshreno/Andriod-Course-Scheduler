@@ -1,7 +1,6 @@
 package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +15,12 @@ import android.widget.Toast;
 import com.example.c196_pa.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import Database.Repository;
 import Entity.Course;
 import Entity.Term;
+import Utility.CourseAdapter;
+import Utility.MyDatePicker;
 
 public class TermDetail extends AppCompatActivity {
 
