@@ -199,8 +199,9 @@ public class CourseDetail extends AppCompatActivity {
     private void removeAssessment() {
         if (selectedAssessment != null) {
             repo.updateAssessment(selectedAssessment);
+            int i = associatedAssessments.indexOf(selectedAssessment);
             associatedAssessments.remove(selectedAssessment);
-            adapter.notifyItemRemoved(associatedAssessments.indexOf(selectedAssessment));
+            adapter.notifyItemRemoved(i);
         }
         else
             Toast.makeText(CourseDetail.this, "Please select an assessment to remove.", Toast.LENGTH_LONG).show();

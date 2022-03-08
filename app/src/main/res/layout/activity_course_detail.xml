@@ -193,6 +193,15 @@
                 android:onClick="onSave"
                 android:text="Save" />
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Associated Assessment:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAssociatedAssessments"
                 android:layout_width="match_parent"

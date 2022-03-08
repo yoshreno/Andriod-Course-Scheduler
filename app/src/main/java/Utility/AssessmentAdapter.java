@@ -48,6 +48,10 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
                         intent.putExtra("index", selectedIndex);
                         context.startActivity(intent);
                     }
+                    else if (context.getClass().equals(CourseDetail.class)) {
+                        selectedAssessment.setCourseId(0);
+                        CourseDetail.selectedAssessment = selectedAssessment;
+                    }
                     else if (context.getClass().equals(AssociateAssessment.class)) {
                         selectedAssessment.setCourseId(AssociateAssessment.courseID);
                         AssociateAssessment.assessment = selectedAssessment;
