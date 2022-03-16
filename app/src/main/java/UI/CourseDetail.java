@@ -219,15 +219,19 @@ public class CourseDetail extends AppCompatActivity {
 
     private void setStartNotification() {
         String notificationDate = editStart.getText().toString();
-        Date date = null;
+        Date triggerDate = null;
         try {
-            date = sdf.parse(notificationDate);
-            Long trigger = date.getTime();
+            triggerDate = sdf.parse(notificationDate);
+            Long trigger = triggerDate.getTime();
             Intent intent = new Intent(CourseDetail.this, MyReceiver.class);
             intent.putExtra("key", "Course: '" + title+ "' is starting today.");
             PendingIntent sender = PendingIntent.getBroadcast(CourseDetail.this, MainActivity.numAlert++, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+
+            Date today = new Date();
+            Long todayMilli = today.getTime();
+            if(trigger > todayMilli)
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -236,15 +240,19 @@ public class CourseDetail extends AppCompatActivity {
 
     private void setEndNotification() {
         String notificationDate = editEnd.getText().toString();
-        Date date = null;
+        Date triggerDate = null;
         try {
-            date = sdf.parse(notificationDate);
-            Long trigger = date.getTime();
+            triggerDate = sdf.parse(notificationDate);
+            Long trigger = triggerDate.getTime();
             Intent intent = new Intent(CourseDetail.this, MyReceiver.class);
             intent.putExtra("key", "Course: '" + title+ "' is ending today.");
             PendingIntent sender = PendingIntent.getBroadcast(CourseDetail.this, MainActivity.numAlert++, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+
+            Date today = new Date();
+            Long todayMilli = today.getTime();
+            if(trigger > todayMilli)
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
             e.printStackTrace();
