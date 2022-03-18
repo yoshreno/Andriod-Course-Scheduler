@@ -20,6 +20,7 @@ import com.example.c196_pa.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -165,9 +166,10 @@ public class AssessmentDetail extends AppCompatActivity {
             PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetail.this, MainActivity.numAlert++, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            Date today = new Date();
-            Long todayMilli = today.getTime();
-            if(trigger > todayMilli)
+            LocalDate today = LocalDate.now();
+            String todayString = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
+            Date dateToday = sdf.parse(todayString);
+            if(triggerDate.equals(dateToday) || triggerDate.after(dateToday))
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
@@ -186,9 +188,10 @@ public class AssessmentDetail extends AppCompatActivity {
             PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetail.this, MainActivity.numAlert++, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            Date today = new Date();
-            Long todayMilli = today.getTime();
-            if(trigger > todayMilli)
+            LocalDate today = LocalDate.now();
+            String todayString = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
+            Date dateToday = sdf.parse(todayString);
+            if(triggerDate.equals(dateToday) || triggerDate.after(dateToday))
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
