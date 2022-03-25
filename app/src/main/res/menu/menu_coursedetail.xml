@@ -8,9 +8,12 @@
     <item android:title="Remove Assessment"
         android:orderInCategory="100"
         android:id="@+id/removeAssessment"/>/>
-    <item android:title="Set Notification"
+    <item android:title="Set Start Notification"
         android:orderInCategory="100"
-        android:id="@+id/notify"/>
+        android:id="@+id/startNotify"/>
+    <item android:title="Set End Notification"
+        android:orderInCategory="100"
+        android:id="@+id/endNotify"/>
     <item android:title="Share Notes"
         android:orderInCategory="100"
         android:id="@+id/share"/>

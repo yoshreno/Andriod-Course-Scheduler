@@ -102,10 +102,12 @@ public class AssessmentDetail extends AppCompatActivity {
             case R.id.deleteAssessment:
                 this.deleteAssessment();
                 return true;
-            case R.id.notify:
-                if (editStart.getText().toString() != "")
+            case R.id.assessmentStartNotify:
+                if (!editStart.getText().toString().isEmpty())
                     this.setStartNotification();
-                if (editEnd.getText().toString() != "")
+                return true;
+            case R.id.assessmentEndNotify:
+                if (!editEnd.getText().toString().isEmpty())
                     this.setEndNotification();
                 return true;
         }
@@ -170,7 +172,7 @@ public class AssessmentDetail extends AppCompatActivity {
             String todayString = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
             Date dateToday = sdf.parse(todayString);
             if(triggerDate.equals(dateToday) || triggerDate.after(dateToday))
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -192,7 +194,7 @@ public class AssessmentDetail extends AppCompatActivity {
             String todayString = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
             Date dateToday = sdf.parse(todayString);
             if(triggerDate.equals(dateToday) || triggerDate.after(dateToday))
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
         }
         catch (ParseException e) {
             e.printStackTrace();
